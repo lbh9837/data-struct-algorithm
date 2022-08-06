@@ -1,6 +1,8 @@
 package com.lbh.leetcode;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 1. 两数之和
@@ -23,50 +25,24 @@ import java.util.Arrays;
 public class LeetCode1 {
 
     public int[] twoSum(int[] nums, int target) {
-        int[] newNums = Arrays.copyOf(nums, nums.length);
-        Arrays.sort(newNums);
+        Map<Integer, Integer> map = new HashMap<>();
         int[] sum = new int[2];
-        int i = 0;
-        int j = newNums.length - 1;
-        while (i < j) {
-            if (target == newNums[i] + newNums[j]) {
-                sum[0] = getIndex(nums, newNums[i], true);
-                sum[1] = getIndex(nums, newNums[j], false);
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                sum[0] = map.get(nums[i]);
+                sum[1] = i;
                 break;
-            } else if (target > newNums[i] + newNums[j]) {
-                i++;
-            } else {
-                j--;
             }
+            map.put(target - nums[i], i);
         }
         return sum;
-    }
-
-    private int getIndex(int[] nums, int value, boolean head) {
-        int index = -1;
-        if (head) {
-            for (int i = 0; i < nums.length; i++) {
-                if (nums[i] == value) {
-                    index = i;
-                    break;
-                }
-            }
-        } else {
-            for (int i = nums.length - 1; i >= 0; i--) {
-                if (nums[i] == value) {
-                    index = i;
-                    break;
-                }
-            }
-        }
-        return index;
     }
 
     public static void main(String[] args) {
         LeetCode1 leetCode1 = new LeetCode1();
 
-        int[] nums = {1, 2, 2, 4};
-        int target = 4;
+        int[] nums = {3, 3};
+        int target = 6;
         System.out.println(Arrays.toString(leetCode1.twoSum(nums, target)));
     }
 }
